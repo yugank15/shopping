@@ -21,7 +21,7 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 ## About The author Yugank Gupta
-This document intended only for educational purposes not commercially. You can freely use this code and clone this project.
+This document intended only for educational purposes not commercial. You can freely use this code and clone this project.
 Please Support me..
 ## Learning Laravel
 
