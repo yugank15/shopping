@@ -1,7 +1,28 @@
-﻿Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -All
+Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -All
 $PSVersionTable.PSVersion
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+
+
+#.net 4.8 install..
+$username = "Administrator"
+$password = "UVYJwC&LBYZe-QRbJZYr7&OBM&ADf-$W"
+ 
+Start-BitsTransfer -Source 'https://go.microsoft.com/fwlink/?linkid=2088631'  -Destination "$Env:Temp\Net4.8.exe";
+$i = 0
+do {
+    $file = Test-Path $Env:Temp\Net4.8.exe
+        if ($file -eq $False)  {$i = 0}
+  
+        elseif ($file -eq $True)
+            {
+                Write-Host " THE exe  does exist "
+                Start-Process $Env:Temp\Net4.8.exe /q
+                $i++
+            }   
+   }
+until ($i -eq 1)
+
 
 $url = "https://download.visualstudio.microsoft.com/download/pr/e730a0bd-baf1-4f4c-9341-ca5a9caf0f9f/4358b712148b3781631ab8d0eea42af736398c8b44fba868b76cb255b3de7e7c/vs_Professional.exe"
 New-Item -Path 'C:\dev\pub\vs' -ItemType Directory -force
@@ -89,11 +110,4 @@ Catch
    Break
 
 }
-
-echo "Merged branches"
-for branch in `git branch -r --merged | grep -v HEAD`;do echo -e `git log --no-merges -n 1 --format="%ci, %cr, %an, %ae, "  $branch | head -n 1` \\t$branch; done | sort -r
-
-echo ""
-echo "Not merged branches"
-for branch in `git branch -r --no-merged | grep -v HEAD`;do echo -e `git log --no-merges -n 1 --format="%ci, %cr, %an, %ae, " $branch | head -n 1` \\t$branch; done | sort -r
 
