@@ -5,8 +5,8 @@ Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
 
 
 #.net 4.8 install..
-$username = "Administrator"
-$password = "UVYJwC&LBYZe-QRbJZYr7&OBM&ADf-$W"
+$username = "any"
+$password = "any"
  
 Start-BitsTransfer -Source 'https://go.microsoft.com/fwlink/?linkid=2088631'  -Destination "$Env:Temp\Net4.8.exe";
 $i = 0
