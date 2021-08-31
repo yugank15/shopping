@@ -111,3 +111,29 @@ Catch
 
 }
 
+param (
+  $Destination = $(New-Item -Path 'C:\dev\pub\vs' -ItemType Directory -force),
+  # Use $(...) to use a command's output as a parameter default value.
+  # By contrast assigning "..." only assigns a *string*.
+  $session = $(New-PSSession -ComputerName $server -Credential $mycredentials),
+  # To be safe, better to `-escape $ inside "..." if it's meant to be a literal.
+  $SourceFile = ("https://download.visualstudio.microsoft.com/download/pr/e730a0bd-baf1-4f4c-9341-ca5a9caf0f9f/4358b712148b3781631ab8d0eea42af736398c8b44fba868b76cb255b3de7e7c/vs_Professional.exe")
+  
+)
+
+Write-Host "Installing Visual Studio"
+
+Copy-Item -FromSession $session -Path $SourceFile -Destination $destination -Force
+
+# You don't need the session anymore now that you've copied the file.
+# Normally you'd call
+#     Remove-PSSession $session
+# However, given that the session may have been passed as an argument, the caller
+# may still need it.
+
+# With the installer present on the local machine, you can invoke
+# Start-Process locally - no need for a session.
+Start-Process -Wait $Destination\vs_Professional.exe -ArgumentList '--quiet', '--installPath "C:\VS"'
+
+# No need for Exit-PSSession (which is a no-op here), given that 
+# you haven't used Enter-PSSession.
